@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Julianne Toh</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Georgia, 'Times New Roman', serif; color: #1a1a1a; background: #fafafa; line-height: 1.6; }
+        .container { max-width: 640px; margin: 0 auto; padding: 60px 24px; }
+        h1 { font-size: 28px; font-weight: bold; margin-bottom: 8px; color: #1a1a1a; }
+        .tagline { font-size: 15px; color: #555; margin-bottom: 32px; }
+        .contact { font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: #888; margin-bottom: 48px; }
+        .contact a { color: #2B4C7E; text-decoration: none; }
+        .contact a:hover { text-decoration: underline; }
+        h2 { font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; color: #2B4C7E; margin-bottom: 20px; }
+        .about { font-size: 16px; color: #333; margin-bottom: 48px; }
+        .portfolio-item { margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid #e8e8e8; }
+        .portfolio-item:last-child { border-bottom: none; }
+        .portfolio-item h3 { font-size: 17px; margin-bottom: 6px; }
+        .portfolio-item h3 a { color: #1a1a1a; text-decoration: none; }
+        .portfolio-item h3 a:hover { color: #2B4C7E; }
+        .portfolio-item .type { font-family: Helvetica, Arial, sans-serif; font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .portfolio-item p { font-size: 15px; color: #555; }
+        .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e8e8e8; font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #999; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Julianne Toh</h1>
+        <p class="tagline">Building AI-powered systems at the intersection of fraud prevention, human judgment, and public impact.</p>
+        <p class="contact">
+            <a href="mailto:julianne.toh@gmail.com">julianne.toh@gmail.com</a> &middot;
+            <a href="https://www.linkedin.com/in/julianne-toh/" target="_blank">LinkedIn</a>
+        </p>
+
+        <h2>About</h2>
+        <p class="about">Fifteen years spanning the Singapore Police Force and Amazon, working at the intersection of fraud prevention, intelligent automation, and cross-institutional coordination. At Amazon, owned the global product strategy for ML-driven fraud detection across 18 marketplaces. At SPF, built first-of-their-kind analytical products and cross-agency data partnerships without existing playbooks or engineering support. Currently building AI agent workflows and exploring how automation can make government officers more effective.</p>
+
+        <h2>Portfolio</h2>
+
+        <div class="portfolio-item">
+            <div class="type">Essay</div>
+            <h3><a href="portfolio/automation-essay.pdf" target="_blank">What I Learned About Automation That Most People Get Wrong</a></h3>
+            <p>Drawing on Amazon and SPF experience to argue that automation is a workflow design problem, not a technology problem. Covers encoding tacit knowledge, hidden maintenance costs, incentive misalignment, and the counterintuitive value of non-technological solutions.</p>
+        </div>
+
+        <div class="portfolio-item">
+            <div class="type">Automation Project</div>
+            <h3><a href="portfolio/daily-digest.pdf" target="_blank">Automated Daily Learning Digest</a></h3>
+            <p>AI-powered daily email system built with n8n and Claude API. Delivers curated scam/fraud policy news, PM concept curricula, and probabilistic thinking frameworks, filtered for relevance and structured for cumulative learning.</p>
+        </div>
+
+        <div class="portfolio-item">
+            <div class="type">Automation Project</div>
+            <h3><a href="portfolio/resume-pipeline.pdf" target="_blank">AI-Powered Resume Tailoring Pipeline</a></h3>
+            <p>Command-line tool using Python and Claude API that takes a job description and generates a tailored, ATS-friendly resume from a structured master data file. Separates content from presentation so tailoring becomes a selection problem, not a rewriting problem.</p>
+        </div>
+
+        <div class="portfolio-item">
+            <div class="type">Automation Project</div>
+            <h3><a href="portfolio/job-scanner.pdf" target="_blank">Automated Job Scanner</a></h3>
+            <p>Daily job recommendation system built with n8n and Claude API. Uses AI-powered relevance filtering instead of keyword matching, delivering ranked recommendations with explanations of fit. Demonstrates the precision-recall tradeoff in a personal context.</p>
+        </div>
+
+        <div class="footer">
+            Julianne Toh &middot; Singapore &middot; 2026
+        </div>
+    </div>
+</body>
+</html>
