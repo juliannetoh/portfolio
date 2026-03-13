@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What I Learned About Automation That Most People Get Wrong - Julianne Toh</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Georgia, 'Times New Roman', serif; color: #1a1a1a; background: #fafafa; line-height: 1.6; }
+        .container { max-width: 640px; margin: 0 auto; padding: 60px 24px; }
+        .back { font-family: Helvetica, Arial, sans-serif; font-size: 13px; margin-bottom: 32px; }
+        .back a { color: #2B4C7E; text-decoration: none; }
+        .back a:hover { text-decoration: underline; }
+        .type { font-family: Helvetica, Arial, sans-serif; font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        h1 { font-size: 24px; font-weight: bold; margin-bottom: 8px; color: #1a1a1a; }
+        .meta { font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: #888; margin-bottom: 40px; }
+        .content p { font-size: 16px; color: #333; margin-bottom: 20px; }
+        .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e8e8e8; font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #999; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back"><a href="index.html">&larr; Back to portfolio</a></div>
+        <div class="type">Essay</div>
+        <h1>What I Learned About Automation That Most People Get Wrong</h1>
+        <p class="meta">Julianne Toh &middot; March 2026</p>
+
+        <div class="content">
+            <p>"I'd like to press a button and the answer about the culprit's identity would come out instantly." This is what a leader shared with me regarding her expectations about my intelligence analysis project, but sadly this wasn't the case. I had identified the culprit but it had taken weeks of manual work and this was just the beginning of our work together to apprehend the mastermind behind the longest running local e-commerce scam series at the time. Behind the scenes, there were months of toiling over investigative dead ends, reconciling data with all sorts of different formats, and there was going to be much more of that in the future as we obtained the evidence we needed to charge this defendant in court. So the expectation, common as it might be, was far from reality. The same expectation runs through AI automation, and ultimately it's this belief that is going to cause the automation project to fail.</p>
+
+            <p>In Amazon, my risk manager and I spent months transforming our SOP about what risk signals help investigators determine which sellers are bad actors trying to get financial gain out of Amazon. Our goal was to come up with an SOP format which allowed investigators to easily make a decision about which sellers were bad, and eventually automate some of these micro investigation steps. We spent months distilling years of investigator intuition into explicit rules a machine could follow. I found this to be the hardest part because I had to understand the shape of the fraud (collusion requires both buyer and seller signals) before I could encode it. The same format couldn't be copied and pasted to another type of fraud because the actual risk was different. The technology was the easy part, knowing what to encode was tough. This difficulty applies to any organization trying to deploy AI agents because the bottleneck isn't the AI capability, it's understanding your own workflows well enough to know which parts are genuine judgment and which parts are automatable routine. Automation is a workflow design problem, not a technology problem.</p>
+
+            <p>If you start an AI automation project, you need to be aware of two things. The first thing is the expectation gap we discussed earlier. Everyone expects AI to work like magic, press of a button and poof, great results. The reality is that isn't the case, which results in many rounds of refinement, which is frustrating given that it wasn't the expected result. So, to get around this, it's important to set the expectation that AI is going to improve things, but it's going to take significant time and effort to set it up. For example, the reality that "this compresses 15 hours of work into 2" and not "press a button". The second thing is that there's ongoing maintenance cost. In amazon, I saw this when bad actors adapted to my detection workflows and came up with clever ways to avoid them, which meant that I needed weekly deep dives and frequent rule refinements to maintain my automation results. AI workflows aren't set-and-forget. They need ongoing investment, and organizations that don't budget for maintenance will have a system that degrades within months and then you're back where you started.</p>
+
+            <p>So, you've designed the workflow, the automation is working as you intended. But, here's what I didn't expect but really should have, humans are really smart and can work around your automation if incentives aren't aligned. I found this out the hard way. I deployed my new investigation questionnaire, reduced free text boxes with MCQ selections and compulsory fields, recommended an enforcement action given the inputs selected, and even came up with a nifty way to record all these responses so I could analyze where there were investigator errors. Turns out, compulsory fields are easily circumvented with dashes. Why did this happen? I found out that my investigator's north star metric was investigation speed and not missing SLAs, while mine was bad debt reduction, which meant that the investigation incentives were misaligned with my data quality goals. What this means in practice is that AI agents don't replace the incentive design problem. If people are measured on speed, they'll find ways to skip whatever the AI adds to their workflow. The system design has to align what the AI needs (good data, honest feedback) with what the humans are rewarded for.</p>
+
+            <p>AI automation helped to reduce some problems, I could see that my seller bad debt was going down, investigator errors were improving, up to a point. Then, things plateaued, investigator errors steadied at a higher percentage than leadership wanted. So, my solution was to introduce automated training trackers, structured review mechanisms, coaching logs etc. All these added time to my investigator's already busy schedule, so they all got gamed, it felt like they were going through the motions and filling up the excel sheet with 'done' but nothing to show for it. I was desperate, and as a last resort, I suggested moving my risk managers from their office, which was in an entirely different building, to sit right next to the operations investigators. This was the solution that worked: the risk managers built rapport with the investigators, the investigators could easily approach them when there was uncertainty and a feedback loop was established and morale drastically went up when they really felt like they were part of the same team. I learned that some problems are relational, not procedural. AI agents are powerful but they're not the answer to every workflow problem. A good workflow architect knows when to deploy technology and when to deploy proximity, trust, or simpler process changes. The judgment about where AI belongs is more valuable than the ability to build it. The right solution probably leverages AI automation as well as human judgement and relationships.</p>
+
+            <p>So, where to start your AI automation? Here's an example of how I did it: I worked with my data scientist to launch an LLM copilot by choosing the simplest abuse type so the effect was visible to everyone. We were able to show clear results to prove that the LLM worked, then we branched out to more difficult use cases. In practice: Start with one specific, painful, recurring workflow that everyone recognizes, then build the AI solution for that one thing. Show the before and after. Let people pull toward the tool rather than pushing training on them. Avoid starting with the hardest or most painful problem, don't promise magic, don't skip the maintenance plan, and don't deploy without a feedback loop.</p>
+
+            <p>AI automation is a lot of work. Is it worth it? 100% yes. AI agents are valuable and increasingly important. They allow you to take away some of the frustrating, mundane tasks so that human judgement can go where it's needed: to the edge cases, to the toughest problems. But the skill that makes AI automation work isn't building the agent. It's understanding the workflow deeply enough to know where AI helps and where it doesn't. That's a human skill, and it's one worth developing.</p>
+        </div>
+
+        <div class="footer">
+            <a href="index.html" style="color: #2B4C7E; text-decoration: none;">&larr; Back to portfolio</a>
+        </div>
+    </div>
+</body>
+</html>

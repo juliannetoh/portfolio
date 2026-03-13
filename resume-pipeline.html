@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Resume Tailoring Pipeline - Julianne Toh</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Georgia, 'Times New Roman', serif; color: #1a1a1a; background: #fafafa; line-height: 1.6; }
+        .container { max-width: 640px; margin: 0 auto; padding: 60px 24px; }
+        .back { font-family: Helvetica, Arial, sans-serif; font-size: 13px; margin-bottom: 32px; }
+        .back a { color: #2B4C7E; text-decoration: none; }
+        .back a:hover { text-decoration: underline; }
+        .type { font-family: Helvetica, Arial, sans-serif; font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        h1 { font-size: 24px; font-weight: bold; margin-bottom: 8px; color: #1a1a1a; }
+        .meta { font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: #888; margin-bottom: 40px; }
+        .tech { font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #2B4C7E; margin-bottom: 40px; }
+        h2 { font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; color: #2B4C7E; margin-bottom: 12px; margin-top: 36px; }
+        .content p { font-size: 16px; color: #333; margin-bottom: 16px; }
+        .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e8e8e8; font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #999; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back"><a href="index.html">&larr; Back to portfolio</a></div>
+        <div class="type">Automation Project</div>
+        <h1>AI-Powered Resume Tailoring Pipeline</h1>
+        <p class="meta">Julianne Toh &middot; March 2026</p>
+        <p class="tech">Built with Python, Claude API, ReportLab, Cursor</p>
+
+        <div class="content">
+            <h2>What it does</h2>
+            <p>A command-line tool that takes a job description and generates a tailored, ATS-friendly resume as a PDF. It maintains a single master data file containing all my career content (three versions of career summaries, role-specific bullets, technical skills, interview stories, portfolio items) and uses Claude API to select and reframe the most relevant content for each application.</p>
+
+            <h2>Why I built it</h2>
+            <p>Each job application I was targeting required a differently weighted resume. The scam policy role needed SPF front and centre. The AI PM role needed Amazon's ML work leading. Manually rewriting for each application was time-consuming and error-prone. I wanted a system where my career content lived in one place and the tailoring happened automatically, so I could focus on quality applications rather than formatting.</p>
+
+            <h2>How it works</h2>
+            <p>The master data file (resume_master_data.json) is the single source of truth, containing every bullet, summary variant, and skill I might need. The generator script supports preset versions (general, scamtech, pair) that select pre-configured content, plus a custom mode that accepts any job description. In custom mode, the script sends the job description and master data to Claude API with instructions to select the most relevant content, reorder sections, and adjust emphasis. The output is a formatted two-page PDF generated with ReportLab, with consistent typography, proper margins, and ATS-compatible formatting.</p>
+
+            <h2>What I learned</h2>
+            <p>Separating content from presentation was the key design decision. Once all my career data lived in structured JSON rather than in Word documents, tailoring became a selection problem rather than a rewriting problem. I also learned that AI-generated resumes need human review for tone; Claude's first drafts were sometimes too polished and lost my voice. The system works best as a first draft generator that I then edit, not as a fully autonomous pipeline. This mirrors the human-in-the-loop principle from my Amazon work: AI handles the routine selection and formatting, humans handle the judgment about voice and emphasis.</p>
+        </div>
+
+        <div class="footer">
+            <a href="index.html" style="color: #2B4C7E; text-decoration: none;">&larr; Back to portfolio</a>
+        </div>
+    </div>
+</body>
+</html>

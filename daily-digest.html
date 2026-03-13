@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Daily Learning Digest - Julianne Toh</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Georgia, 'Times New Roman', serif; color: #1a1a1a; background: #fafafa; line-height: 1.6; }
+        .container { max-width: 640px; margin: 0 auto; padding: 60px 24px; }
+        .back { font-family: Helvetica, Arial, sans-serif; font-size: 13px; margin-bottom: 32px; }
+        .back a { color: #2B4C7E; text-decoration: none; }
+        .back a:hover { text-decoration: underline; }
+        .type { font-family: Helvetica, Arial, sans-serif; font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        h1 { font-size: 24px; font-weight: bold; margin-bottom: 8px; color: #1a1a1a; }
+        .meta { font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: #888; margin-bottom: 40px; }
+        .tech { font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #2B4C7E; margin-bottom: 40px; }
+        h2 { font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; color: #2B4C7E; margin-bottom: 12px; margin-top: 36px; }
+        .content p { font-size: 16px; color: #333; margin-bottom: 16px; }
+        .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e8e8e8; font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #999; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back"><a href="index.html">&larr; Back to portfolio</a></div>
+        <div class="type">Automation Project</div>
+        <h1>Automated Daily Learning Digest</h1>
+        <p class="meta">Julianne Toh &middot; March 2026</p>
+        <p class="tech">Built with n8n, Claude API, Gmail</p>
+
+        <div class="content">
+            <h2>What it does</h2>
+            <p>An automated system that delivers a personalized daily email every morning at 6am, combining curated news across scam/fraud policy, AI/ML product trends, and Singapore tech courses with structured learning tracks in PM concepts and probabilistic thinking. It also monitors specific sources like OGP's careers page and Dario Amodei's blog for changes.</p>
+
+            <h2>Why I built it</h2>
+            <p>During my job search, I needed to stay current across multiple domains (scam policy, AI product management, PM fundamentals) without spending hours each morning reading. I also wanted structured learning that would build knowledge cumulatively rather than randomly. Instead of subscribing to dozens of newsletters and hoping I'd read them, I built a system that did the filtering, synthesis, and scheduling for me.</p>
+
+            <h2>How it works</h2>
+            <p>An n8n workflow triggers daily and runs two parallel tracks. The first loads the day's PM concept and probabilistic thinking topic from JSON databases I designed (40 PM concepts across 8 weeks, 20 probabilistic thinking concepts across 10 weeks). The second sends a detailed prompt to Claude API via HTTP request, asking it to search the web for relevant news across my target categories and return structured JSON. A merge node combines both tracks, and a final code node assembles the HTML email and sends it via Gmail. The workflow includes day-of-week logic so different content categories appear on different days, preventing information overload.</p>
+
+            <h2>What I learned</h2>
+            <p>The hardest part wasn't the automation; it was the content design. Deciding what to include, what to exclude, and how to sequence learning concepts required more thought than the technical build. I also learned practical lessons about API timeout handling, timezone logic in scheduled workflows, and why string concatenation beats template literals in n8n's code nodes. Most importantly, the project reinforced the thesis of my writing piece: the value isn't in the tool, it's in understanding the workflow well enough to design something genuinely useful.</p>
+        </div>
+
+        <div class="footer">
+            <a href="index.html" style="color: #2B4C7E; text-decoration: none;">&larr; Back to portfolio</a>
+        </div>
+    </div>
+</body>
+</html>
