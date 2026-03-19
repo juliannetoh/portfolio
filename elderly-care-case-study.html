@@ -21,6 +21,9 @@
         .content .quote { font-size: 15px; color: #555; font-style: italic; margin-bottom: 20px; padding: 16px 20px; background: #f4f4f4; border-left: 3px solid #2B4C7E; }
         .content .quote .attribution { font-style: normal; font-size: 13px; color: #888; margin-top: 8px; }
         .content .insight { font-size: 15px; color: #444; margin-bottom: 20px; padding: 16px 20px; background: #f9f6f0; border-left: 3px solid #D97706; }
+        .content .screenshot { margin: 24px 0; text-align: center; }
+        .content .screenshot img { max-width: 300px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); border: 1px solid #e8e8e8; }
+        .content .screenshot .caption { font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #888; margin-top: 8px; }
         .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e8e8e8; font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #999; }
     </style>
 </head>
@@ -68,7 +71,7 @@
                 <div class="attribution">Medical social worker, Ng Teng Fong General Hospital</div>
             </div>
 
-            <p>The medical social worker does thorough work at discharge: needs assessments, service referrals, connecting patients to community resources. But after the handover, visibility ends. She relies on patients calling her back, which the most vulnerable are least likely to do.</p>
+            <p>The medical social worker uses the Biopsychosocial Spiritual (BPSS) assessment to evaluate each patient's needs before discharge, referring them to services like daycare, Family Service Centres for counselling, Active Ageing Centres, or home-based care. The discharge process itself is structured and thorough. But after the handover, visibility ends. She relies on patients calling her back, which the most vulnerable are least likely to do.</p>
 
             <div class="quote">
                 "We definitely had cases that fell through the cracks. The handover, whether it's from hospital to the community services or back, can really just be so messy and broken. So many different agencies involved."
@@ -107,6 +110,16 @@
 
             <p>The coordinator can override the risk score at any time, selecting a reason from structured options. Overrides are logged, not hidden. This serves two purposes: the coordinator's professional judgment is respected and documented, and the override data trains better risk scoring over time.</p>
 
+            <div class="screenshot">
+                <img src="dashboard-home.png" alt="Coordinator dashboard showing three priority alerts ranked by risk level">
+                <div class="caption">Coordinator dashboard: priority alerts ranked by urgency, with risk factors and recommended actions</div>
+            </div>
+
+            <div class="screenshot">
+                <img src="senior-profile.png" alt="Senior profile showing risk factors and visit history from both hospital and community sources">
+                <div class="caption">Senior profile: hospital discharge data and community volunteer observations in one view</div>
+            </div>
+
             <h3>The volunteer</h3>
 
             <p>Befriending volunteers are often retired, matched by language and ethnicity to the seniors they visit, working in pairs, 4 hours per week, unpaid. Their working language may not be English.</p>
@@ -118,6 +131,11 @@
             <p>If the volunteer selects "something to note," they choose from structured observation chips (confusion, weight loss, mobility difficulty, and so on) and can optionally request a coordinator follow-up. If they select "could not make contact," the system tracks the pattern. Two consecutive unexpected missed visits triggers a warning. Three triggers an automatic coordinator alert. But a third option, "this senior typically does not open the door," handles the trust-building scenario where a volunteer is trying to establish a relationship with a reluctant senior. The system distinguishes between "always refuses" and "suddenly stopped responding."</p>
 
             <p>Volunteers can also refer seniors who aren't in the system yet through a lightweight form. This solves the ICCP paradox: seniors who haven't been discharged from hospital and aren't known to ICCP can still enter the system through the informal community network.</p>
+
+            <div class="screenshot">
+                <img src="volunteer-log.png" alt="Volunteer visit logger showing scheduled visits, status options, and coordinator feedback">
+                <div class="caption">Volunteer app: simple visit list with coordinator feedback and referral option</div>
+            </div>
 
             <h3>The discharge planner</h3>
 
