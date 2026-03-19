@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordinator Dashboard Prototype - Julianne Toh</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f0f0; display: flex; justify-content: center; padding: 20px 0; }
+        .back-link { text-align: center; margin-bottom: 12px; font-family: Helvetica, Arial, sans-serif; font-size: 13px; }
+        .back-link a { color: #2B4C7E; text-decoration: none; }
+        .back-link a:hover { text-decoration: underline; }
+        #root { max-width: 390px; width: 100%; min-height: 100vh; box-shadow: 0 0 40px rgba(0,0,0,0.08); }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="back-link"><a href="elderly-care-case-study.html">&larr; Back to case study</a></div>
+        <div id="root"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+    <script type="text/babel">
+const { useState } = React;
+
+const COLORS = {
+  bg: "#F7F8FA", card: "#FFFFFF", primary: "#2563EB", primaryLight: "#EFF6FF",
+  high: "#DC2626", highBg: "#FEF2F2", medium: "#D97706", mediumBg: "#FFFBEB",
+  low: "#16A34A", lowBg: "#F0FDF4", overdue: "#991B1B", overdueBg: "#FEE2E2",
+  text: "#1E293B", textMuted: "#64748B", border: "#E2E8F0", divider: "#F1F5F9",
+};
+
+const seniors = [
+  { id: 1, name: "Mr Tan Ah Kow", age: 78, nric: "*****085E", address: "Blk 123 Bedok North Ave 1, #04-567", risk: "High", source: "Hospital discharge, 12 Mar", action: "Wellness check within 48 hours", tags: ["Lives alone", "Recent discharge", "Cognitive concern"], factors: [{ label: "Living arrangement", value: "Lives alone" }, { label: "Language", value: "Hokkien" }, { label: "Mobility", value: "Uses walking frame" }, { label: "Cognitive status", value: "Early-stage dementia" }, { label: "Recent event", value: "Discharged from NTFGH, 12 Mar (hip surgery)" }], history: [{ date: "14 Mar", who: "Befriender Mrs Wong", note: "Noted confusion, difficulty with stairs. Flagged for coordinator follow-up.", type: "volunteer" }, { date: "12 Mar", who: "NTFGH Discharge", note: "Discharged after hip surgery. Flagged as high-risk by discharge planner.", type: "hospital" }] },
+  { id: 2, name: "Mrs Deepan Kaur", age: 82, nric: "*****291A", address: "Blk 456 Bedok South Ave 3, #08-123", risk: "Medium", source: "Community referral, 14 Mar", action: "Coordinator wellness check recommended", tags: ["Lives alone", "Chest pain reported", "Declined medical visit"], factors: [{ label: "Living arrangement", value: "Lives alone, son visits weekly" }, { label: "Language", value: "Tamil" }, { label: "Mobility", value: "Independent but slow" }, { label: "Cognitive status", value: "No known issues" }, { label: "Recent concern", value: "Chest pains and fatigue climbing stairs (befriender report)" }], history: [{ date: "14 Mar", who: "Befriender Mrs Lakshmi", note: "Senior mentioned chest pains and worn out climbing stairs. Declined to see doctor. Requested coordinator follow-up.", type: "volunteer" }, { date: "7 Mar", who: "Befriender Mrs Lakshmi", note: "Visited, all well.", type: "volunteer" }] },
+  { id: 3, name: "Mr Lim Boon Huat", age: 75, nric: "*****438D", address: "Blk 789 Bedok Reservoir Rd, #02-345", risk: "Medium", source: "Missed visit pattern, 15 Mar", action: "Investigate non-contact pattern", tags: ["Lives alone", "2 consecutive missed visits", "Usually engages"], factors: [{ label: "Living arrangement", value: "Lives alone" }, { label: "Language", value: "Mandarin / Teochew" }, { label: "Mobility", value: "Independent" }, { label: "Cognitive status", value: "No known issues" }, { label: "Pattern", value: "2 consecutive missed visits (usually opens door)" }], history: [{ date: "15 Mar", who: "Befriender Mr Ong", note: "Could not make contact. Unexpected, senior usually opens door.", type: "alert" }, { date: "8 Mar", who: "Befriender Mr Ong", note: "Could not make contact. Unexpected.", type: "alert" }, { date: "1 Mar", who: "Befriender Mr Ong", note: "Visited, all well. Chatted about grandchildren.", type: "volunteer" }] },
+];
+
+const calendarEvents = [
+  { date: "Mon 17", events: [{ name: "Mr Tan Ah Kow", type: "high", action: "Home visit" }] },
+  { date: "Tue 18", events: [{ name: "Mrs Deepan Kaur", type: "medium", action: "Wellness check" }, { name: "Mr Lim Boon Huat", type: "medium", action: "Investigate non-contact" }] },
+  { date: "Wed 19", events: [] },
+  { date: "Thu 20", events: [{ name: "Mrs Siti Aminah", type: "low", action: "Routine check-in" }] },
+  { date: "Fri 21", events: [{ name: "Mr Tan Ah Kow", type: "medium", action: "Follow-up visit" }] },
+  { date: "Sat 22", events: [] },
+  { date: "Sun 23", events: [] },
+];
+
+const riskColor = (r) => r === "High" ? COLORS.high : r === "Medium" ? COLORS.medium : COLORS.low;
+const riskBg = (r) => r === "High" ? COLORS.highBg : r === "Medium" ? COLORS.mediumBg : COLORS.lowBg;
+const Badge = ({risk}) => <span style={{display:"inline-block",padding:"2px 10px",borderRadius:99,fontSize:12,fontWeight:600,letterSpacing:0.3,color:riskColor(risk),background:riskBg(risk)}}>{risk}</span>;
+const Tag = ({label}) => <span style={{display:"inline-block",padding:"3px 8px",borderRadius:6,fontSize:11,color:COLORS.textMuted,background:COLORS.divider,marginRight:4,marginBottom:4}}>{label}</span>;
+const TopBar = ({title,onBack}) => <div style={{display:"flex",alignItems:"center",padding:"14px 16px",background:"#fff",borderBottom:`1px solid ${COLORS.border}`,position:"sticky",top:0,zIndex:10}}>{onBack && <button onClick={onBack} style={{background:"none",border:"none",fontSize:20,cursor:"pointer",marginRight:12,color:COLORS.primary,padding:"0 4px"}}>{"\u2190"}</button>}<span style={{fontSize:17,fontWeight:600,color:COLORS.text}}>{title}</span></div>;
+
+function DashboardHome({onSelectSenior,tab,setTab}) {
+  return <div style={{background:COLORS.bg,minHeight:"100vh"}}>
+    <div style={{padding:"18px 16px 10px",background:"#fff",borderBottom:`1px solid ${COLORS.border}`}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+        <div><div style={{fontSize:13,color:COLORS.textMuted}}>Monday, 17 March 2026</div><div style={{fontSize:20,fontWeight:700,color:COLORS.text,marginTop:2}}>Good morning, Sarah</div></div>
+        <div style={{width:36,height:36,borderRadius:18,background:COLORS.primaryLight,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,position:"relative"}}>{"\uD83D\uDD14"}<span style={{position:"absolute",top:-2,right:-2,width:16,height:16,borderRadius:8,background:COLORS.high,color:"#fff",fontSize:10,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center"}}>3</span></div>
+      </div>
+      <div style={{display:"flex",gap:8,marginTop:14}}>
+        {[{label:"Priority Alerts",count:3,color:COLORS.high,bg:COLORS.highBg},{label:"Pending",count:5,color:COLORS.medium,bg:COLORS.mediumBg},{label:"Overdue",count:2,color:COLORS.overdue,bg:COLORS.overdueBg}].map(s=><div key={s.label} style={{flex:1,padding:"10px 12px",borderRadius:10,background:s.bg,textAlign:"center"}}><div style={{fontSize:22,fontWeight:700,color:s.color}}>{s.count}</div><div style={{fontSize:11,color:s.color,marginTop:2}}>{s.label}</div></div>)}
+      </div>
+      <div style={{display:"flex",gap:0,marginTop:14}}>
+        {["Today's Alerts","This Week"].map(t=><button key={t} onClick={()=>setTab(t)} style={{flex:1,padding:"8px 0",background:"none",cursor:"pointer",border:"none",borderBottom:tab===t?`2px solid ${COLORS.primary}`:"2px solid transparent",color:tab===t?COLORS.primary:COLORS.textMuted,fontWeight:tab===t?600:400,fontSize:14}}>{t}</button>)}
+      </div>
+    </div>
+    {tab==="Today's Alerts"?<div style={{padding:"12px 16px"}}>{seniors.map(s=><div key={s.id} onClick={()=>onSelectSenior(s)} style={{background:"#fff",borderRadius:12,padding:"14px 16px",marginBottom:10,cursor:"pointer",boxShadow:"0 1px 3px rgba(0,0,0,0.06)",borderLeft:`4px solid ${riskColor(s.risk)}`}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><div style={{fontSize:15,fontWeight:600,color:COLORS.text}}>{s.name}, {s.age}</div><Badge risk={s.risk}/></div><div style={{display:"flex",flexWrap:"wrap",marginTop:8}}>{s.tags.map(t=><Tag key={t} label={t}/>)}</div><div style={{fontSize:12,color:COLORS.textMuted,marginTop:8}}>{s.source}</div><div style={{fontSize:13,color:COLORS.primary,marginTop:6,fontWeight:500}}>{"\u2794"} {s.action}</div></div>)}</div>
+    :<div style={{padding:"12px 16px"}}>{calendarEvents.map(day=><div key={day.date} style={{display:"flex",marginBottom:2,background:"#fff",borderRadius:8,overflow:"hidden",borderBottom:`1px solid ${COLORS.divider}`}}><div style={{width:70,padding:"10px 8px",textAlign:"center",fontSize:13,fontWeight:600,color:COLORS.textMuted,borderRight:`1px solid ${COLORS.divider}`,flexShrink:0}}>{day.date}</div><div style={{flex:1,padding:"8px 12px",minHeight:40}}>{day.events.length===0?<div style={{fontSize:12,color:COLORS.textMuted,fontStyle:"italic",paddingTop:4}}>No scheduled follow-ups</div>:day.events.map((e,i)=><div key={i} style={{display:"flex",alignItems:"center",gap:8,padding:"4px 0",borderBottom:i<day.events.length-1?`1px solid ${COLORS.divider}`:"none"}}><span style={{width:8,height:8,borderRadius:4,flexShrink:0,background:e.type==="high"?COLORS.high:e.type==="medium"?COLORS.medium:COLORS.low}}/><div><div style={{fontSize:13,fontWeight:500,color:COLORS.text}}>{e.name}</div><div style={{fontSize:11,color:COLORS.textMuted}}>{e.action}</div></div></div>)}</div></div>)}</div>}
+  </div>;
+}
+
+function SeniorProfile({senior,onBack,onAction,onOverride}) {
+  return <div style={{background:COLORS.bg,minHeight:"100vh"}}><TopBar title="Senior Profile" onBack={onBack}/>
+    <div style={{padding:"16px"}}>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",boxShadow:"0 1px 3px rgba(0,0,0,0.06)",marginBottom:12}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}><div><div style={{fontSize:18,fontWeight:700,color:COLORS.text}}>{senior.name}, {senior.age}</div><div style={{fontSize:13,color:COLORS.textMuted,marginTop:2}}>{senior.nric}</div><div style={{fontSize:13,color:COLORS.textMuted,marginTop:1}}>{senior.address}</div></div><Badge risk={senior.risk}/></div><div style={{margin:"14px 0 0",padding:"10px 12px",borderRadius:8,background:COLORS.primaryLight,fontSize:13,color:COLORS.primary,fontWeight:500}}>{"\u2794"} {senior.action}</div></div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",boxShadow:"0 1px 3px rgba(0,0,0,0.06)",marginBottom:12}}><div style={{fontSize:14,fontWeight:600,color:COLORS.text,marginBottom:10}}>Risk Factors</div>{senior.factors.map((f,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"7px 0",borderBottom:i<senior.factors.length-1?`1px solid ${COLORS.divider}`:"none"}}><span style={{fontSize:13,color:COLORS.textMuted}}>{f.label}</span><span style={{fontSize:13,color:COLORS.text,fontWeight:500,textAlign:"right",maxWidth:"55%"}}>{f.value}</span></div>)}</div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",boxShadow:"0 1px 3px rgba(0,0,0,0.06)",marginBottom:12}}><div style={{fontSize:14,fontWeight:600,color:COLORS.text,marginBottom:10}}>Visit History</div>{senior.history.map((h,i)=><div key={i} style={{padding:"10px 0",borderBottom:i<senior.history.length-1?`1px solid ${COLORS.divider}`:"none",display:"flex",gap:10}}><div style={{width:10,height:10,borderRadius:5,marginTop:5,flexShrink:0,background:h.type==="hospital"?COLORS.primary:h.type==="alert"?COLORS.medium:COLORS.low}}/><div><div style={{fontSize:12,color:COLORS.textMuted}}>{h.date} {"\u2022"} {h.who}</div><div style={{fontSize:13,color:COLORS.text,marginTop:3}}>{h.note}</div></div></div>)}</div>
+      <div style={{display:"flex",gap:10}}><button onClick={onAction} style={{flex:2,padding:"13px",borderRadius:10,border:"none",background:COLORS.primary,color:"#fff",fontSize:14,fontWeight:600,cursor:"pointer"}}>Log Follow-up Action</button><button onClick={onOverride} style={{flex:1,padding:"13px",borderRadius:10,border:`1.5px solid ${COLORS.border}`,background:"#fff",color:COLORS.text,fontSize:14,fontWeight:500,cursor:"pointer"}}>Override</button></div>
+    </div></div>;
+}
+
+function LogAction({senior,onBack,onSave}) {
+  const [outcome,setOutcome]=useState("");const [actions,setActions]=useState([]);const [otherAction,setOtherAction]=useState("");const [nextStep,setNextStep]=useState("");const [notes,setNotes]=useState("");
+  const outcomes=["Visited, stable","Visited, needs further monitoring","Visited, referred for medical attention","Could not reach","Senior declined assistance"];
+  const actionOptions=["Conducted home visit","Phone call","Scheduled polyclinic appointment","Referred to social worker","Assigned to colleague","Other"];
+  const nextSteps=["No further action needed","Follow up in 1 week","Follow up in 48 hours","Urgent escalation"];
+  const toggleAction=(a)=>setActions(p=>p.includes(a)?p.filter(x=>x!==a):[...p,a]);
+  return <div style={{background:COLORS.bg,minHeight:"100vh"}}><TopBar title="Log Follow-up" onBack={onBack}/>
+    <div style={{padding:"16px"}}>
+      <div style={{background:COLORS.primaryLight,borderRadius:10,padding:"10px 14px",marginBottom:16,fontSize:13,color:COLORS.primary}}>Logging follow-up for <strong>{senior.name}</strong></div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:12,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{fontSize:14,fontWeight:600,color:COLORS.text,marginBottom:10}}>Outcome</div>{outcomes.map(o=><div key={o} onClick={()=>setOutcome(o)} style={{display:"flex",alignItems:"center",padding:"8px 0",cursor:"pointer",borderBottom:`1px solid ${COLORS.divider}`,gap:10}}><span style={{width:18,height:18,borderRadius:9,flexShrink:0,border:outcome===o?`5px solid ${COLORS.primary}`:`2px solid ${COLORS.border}`,background:"#fff"}}/><span style={{fontSize:13,color:COLORS.text}}>{o}</span></div>)}</div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:12,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{fontSize:14,fontWeight:600,color:COLORS.text,marginBottom:10}}>Actions Taken <span style={{fontWeight:400,color:COLORS.textMuted,fontSize:12}}>(select all that apply)</span></div>{actionOptions.map(a=><div key={a} onClick={()=>toggleAction(a)} style={{display:"flex",alignItems:"center",padding:"8px 0",cursor:"pointer",borderBottom:`1px solid ${COLORS.divider}`,gap:10}}><span style={{width:18,height:18,borderRadius:4,flexShrink:0,border:actions.includes(a)?"none":`2px solid ${COLORS.border}`,background:actions.includes(a)?COLORS.primary:"#fff",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:12,fontWeight:700}}>{actions.includes(a)?"\u2713":""}</span><span style={{fontSize:13,color:COLORS.text}}>{a}</span></div>)}{actions.includes("Other")&&<div style={{marginTop:8}}><input value={otherAction} onChange={e=>setOtherAction(e.target.value)} placeholder="Please describe (required)" style={{width:"100%",padding:"10px 12px",borderRadius:8,fontSize:13,border:`1.5px solid ${COLORS.border}`,outline:"none",boxSizing:"border-box"}}/></div>}</div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:12,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{fontSize:14,fontWeight:600,color:COLORS.text,marginBottom:10}}>Next Step</div>{nextSteps.map(n=><div key={n} onClick={()=>setNextStep(n)} style={{display:"flex",alignItems:"center",padding:"8px 0",cursor:"pointer",borderBottom:`1px solid ${COLORS.divider}`,gap:10}}><span style={{width:18,height:18,borderRadius:9,flexShrink:0,border:nextStep===n?`5px solid ${COLORS.primary}`:`2px solid ${COLORS.border}`,background:"#fff"}}/><span style={{fontSize:13,color:COLORS.text}}>{n}</span></div>)}</div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:16,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{fontSize:14,fontWeight:600,color:COLORS.text,marginBottom:10}}>Notes <span style={{fontWeight:400,color:COLORS.textMuted,fontSize:12}}>(optional)</span></div><textarea value={notes} onChange={e=>setNotes(e.target.value)} placeholder="Add any additional notes..." rows={3} style={{width:"100%",padding:"10px 12px",borderRadius:8,fontSize:13,border:`1.5px solid ${COLORS.border}`,outline:"none",resize:"vertical",fontFamily:"inherit",boxSizing:"border-box"}}/></div>
+      <button onClick={onSave} style={{width:"100%",padding:"14px",borderRadius:10,border:"none",background:COLORS.primary,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer"}}>Save Follow-up</button>
+    </div></div>;
+}
+
+function OverrideScore({senior,onBack,onSave}) {
+  const [newRisk,setNewRisk]=useState("");const [reason,setReason]=useState("");const [otherReason,setOtherReason]=useState("");const [notes,setNotes]=useState("");
+  const reasons=["Know this senior personally, situation is stable","Family support has changed","Information is outdated","Condition has improved","Other"];
+  return <div style={{background:COLORS.bg,minHeight:"100vh"}}><TopBar title="Override Risk Score" onBack={onBack}/>
+    <div style={{padding:"16px"}}>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:12,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{fontSize:13,color:COLORS.textMuted,marginBottom:4}}>Current risk score for {senior.name}</div><Badge risk={senior.risk}/><div style={{display:"flex",flexWrap:"wrap",gap:4,marginTop:10}}>{senior.tags.map(t=><Tag key={t} label={t}/>)}</div></div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:12,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{fontSize:14,fontWeight:600,color:COLORS.text,marginBottom:10}}>New Risk Level</div><div style={{display:"flex",gap:8}}>{["High","Medium","Low"].map(r=><button key={r} onClick={()=>setNewRisk(r)} style={{flex:1,padding:"10px",borderRadius:8,cursor:"pointer",border:newRisk===r?`2px solid ${riskColor(r)}`:`1.5px solid ${COLORS.border}`,background:newRisk===r?riskBg(r):"#fff",color:newRisk===r?riskColor(r):COLORS.textMuted,fontWeight:600,fontSize:13}}>{r}</button>)}</div></div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:12,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{fontSize:14,fontWeight:600,color:COLORS.text,marginBottom:10}}>Reason for Override</div>{reasons.map(r=><div key={r} onClick={()=>setReason(r)} style={{display:"flex",alignItems:"center",padding:"8px 0",cursor:"pointer",borderBottom:`1px solid ${COLORS.divider}`,gap:10}}><span style={{width:18,height:18,borderRadius:9,flexShrink:0,border:reason===r?`5px solid ${COLORS.primary}`:`2px solid ${COLORS.border}`,background:"#fff"}}/><span style={{fontSize:13,color:COLORS.text}}>{r}</span></div>)}{reason==="Other"&&<div style={{marginTop:8}}><input value={otherReason} onChange={e=>setOtherReason(e.target.value)} placeholder="Please describe (required)" style={{width:"100%",padding:"10px 12px",borderRadius:8,fontSize:13,border:`1.5px solid ${COLORS.border}`,outline:"none",boxSizing:"border-box"}}/></div>}</div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:16,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{fontSize:14,fontWeight:600,color:COLORS.text,marginBottom:10}}>Notes <span style={{fontWeight:400,color:COLORS.textMuted,fontSize:12}}>(optional)</span></div><textarea value={notes} onChange={e=>setNotes(e.target.value)} placeholder="Any additional context..." rows={2} style={{width:"100%",padding:"10px 12px",borderRadius:8,fontSize:13,border:`1.5px solid ${COLORS.border}`,outline:"none",resize:"vertical",fontFamily:"inherit",boxSizing:"border-box"}}/></div>
+      <button onClick={onSave} style={{width:"100%",padding:"14px",borderRadius:10,border:"none",background:COLORS.primary,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer"}}>Confirm Override</button>
+    </div></div>;
+}
+
+function Confirmation({senior,onBack}) {
+  return <div style={{background:COLORS.bg,minHeight:"100vh"}}><TopBar title="Confirmation" onBack={onBack}/>
+    <div style={{padding:"16px",textAlign:"center"}}>
+      <div style={{width:60,height:60,borderRadius:30,background:COLORS.lowBg,display:"flex",alignItems:"center",justifyContent:"center",margin:"30px auto 16px",fontSize:28}}>{"\u2713"}</div>
+      <div style={{fontSize:17,fontWeight:600,color:COLORS.text}}>Follow-up logged</div>
+      <div style={{fontSize:14,color:COLORS.textMuted,marginTop:6}}>{senior.name}</div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginTop:20,boxShadow:"0 1px 3px rgba(0,0,0,0.06)",textAlign:"left"}}><div style={{fontSize:13,color:COLORS.textMuted}}>Next follow-up scheduled</div><div style={{fontSize:15,fontWeight:600,color:COLORS.text,marginTop:4}}>Friday, 21 March 2026</div><div style={{fontSize:13,color:COLORS.textMuted,marginTop:2}}>Added to your weekly calendar</div></div>
+      <button onClick={onBack} style={{width:"100%",padding:"14px",borderRadius:10,border:"none",background:COLORS.primary,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer",marginTop:20}}>Back to Dashboard</button>
+    </div></div>;
+}
+
+function App() {
+  const [screen,setScreen]=useState("dashboard");const [selectedSenior,setSelectedSenior]=useState(null);const [tab,setTab]=useState("Today's Alerts");
+  const handleSelectSenior=(s)=>{setSelectedSenior(s);setScreen("profile")};
+  const handleBack=()=>{setScreen("dashboard");setSelectedSenior(null)};
+  return <div style={{maxWidth:390,margin:"0 auto",minHeight:"100vh",fontFamily:"-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"}}>
+    {screen==="dashboard"&&<DashboardHome onSelectSenior={handleSelectSenior} tab={tab} setTab={setTab}/>}
+    {screen==="profile"&&selectedSenior&&<SeniorProfile senior={selectedSenior} onBack={handleBack} onAction={()=>setScreen("action")} onOverride={()=>setScreen("override")}/>}
+    {screen==="action"&&selectedSenior&&<LogAction senior={selectedSenior} onBack={()=>setScreen("profile")} onSave={()=>setScreen("confirmation")}/>}
+    {screen==="override"&&selectedSenior&&<OverrideScore senior={selectedSenior} onBack={()=>setScreen("profile")} onSave={()=>setScreen("confirmation")}/>}
+    {screen==="confirmation"&&selectedSenior&&<Confirmation senior={selectedSenior} onBack={handleBack}/>}
+  </div>;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>

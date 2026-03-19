@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Visit Logger Prototype - Julianne Toh</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f0f0; display: flex; justify-content: center; padding: 20px 0; }
+        .back-link { text-align: center; margin-bottom: 12px; font-family: Helvetica, Arial, sans-serif; font-size: 13px; }
+        .back-link a { color: #2B4C7E; text-decoration: none; }
+        .back-link a:hover { text-decoration: underline; }
+        #root { max-width: 390px; width: 100%; min-height: 100vh; box-shadow: 0 0 40px rgba(0,0,0,0.08); }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="back-link"><a href="elderly-care-case-study.html">&larr; Back to case study</a></div>
+        <div id="root"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+    <script type="text/babel">
+const { useState } = React;
+
+const C = {
+  bg:"#F7F8FA",primary:"#0D9488",primaryLight:"#F0FDFA",primaryDark:"#0F766E",
+  green:"#16A34A",greenBg:"#F0FDF4",amber:"#D97706",amberBg:"#FFFBEB",
+  red:"#DC2626",redBg:"#FEF2F2",text:"#1E293B",textMuted:"#64748B",
+  border:"#E2E8F0",divider:"#F1F5F9",warm:"#7C3AED",warmBg:"#F5F3FF",
+};
+
+const visits = [
+  {id:1,name:"Mr Tan Ah Kow",block:"Blk 123 Bedok North Ave 1, #04-567",lastVisit:"7 Mar",lastStatus:"All well"},
+  {id:2,name:"Mrs Deepan Kaur",block:"Blk 456 Bedok South Ave 3, #08-123",lastVisit:"7 Mar",lastStatus:"All well"},
+  {id:3,name:"Mr Lim Boon Huat",block:"Blk 789 Bedok Reservoir Rd, #02-345",lastVisit:"8 Mar",lastStatus:"Could not contact"},
+];
+
+const observations=["Confusion / memory issues","Weight loss / appetite change","Mobility difficulty","Living conditions concern","Medication concern","Mentioned pain or discomfort","Emotional distress / loneliness","Other"];
+
+const TopBar=({title,onBack,lang,setLang})=><div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 16px",background:"#fff",borderBottom:`1px solid ${C.border}`,position:"sticky",top:0,zIndex:10}}><div style={{display:"flex",alignItems:"center"}}>{onBack&&<button onClick={onBack} style={{background:"none",border:"none",fontSize:20,cursor:"pointer",marginRight:12,color:C.primary,padding:"0 4px"}}>{"\u2190"}</button>}<span style={{fontSize:17,fontWeight:600,color:C.text}}>{title}</span></div>{setLang&&<select value={lang} onChange={e=>setLang(e.target.value)} style={{padding:"4px 8px",borderRadius:6,border:`1px solid ${C.border}`,fontSize:12,color:C.textMuted,background:"#fff",cursor:"pointer"}}><option value="en">English</option><option value="zh">{"\u534E\u6587"}</option><option value="ms">Melayu</option><option value="ta">{"\u0BA4\u0BAE\u0BBF\u0BB4\u0BCD"}</option></select>}</div>;
+
+function VisitList({onSelectVisit,onNewReferral,lang,setLang}) {
+  return <div style={{background:C.bg,minHeight:"100vh"}}><TopBar title="My Visits" lang={lang} setLang={setLang}/>
+    <div style={{padding:"18px 16px 10px",background:"#fff",borderBottom:`1px solid ${C.border}`}}>
+      <div style={{fontSize:13,color:C.textMuted}}>Saturday, 15 March 2026</div>
+      <div style={{fontSize:20,fontWeight:700,color:C.text,marginTop:2}}>Hello, Mrs Wong</div>
+      <div style={{display:"flex",alignItems:"center",gap:8,marginTop:12,padding:"10px 14px",borderRadius:10,background:C.primaryLight}}>
+        <span style={{fontSize:22}}>{"\uD83D\uDCCB"}</span>
+        <div><div style={{fontSize:14,fontWeight:600,color:C.primaryDark}}>3 seniors to check on</div><div style={{fontSize:12,color:C.primary}}>Blk 123, 456, 789</div></div>
+      </div>
+    </div>
+    <div style={{padding:"12px 16px"}}>
+      <div style={{fontSize:12,fontWeight:600,color:C.textMuted,marginBottom:8,textTransform:"uppercase",letterSpacing:0.5}}>Today's visits</div>
+      {visits.map(v=><div key={v.id} onClick={()=>onSelectVisit(v)} style={{background:"#fff",borderRadius:12,padding:"14px 16px",marginBottom:8,cursor:"pointer",boxShadow:"0 1px 3px rgba(0,0,0,0.06)",display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><div style={{fontSize:15,fontWeight:600,color:C.text}}>{v.name}</div><div style={{fontSize:13,color:C.textMuted,marginTop:2}}>{v.block}</div><div style={{fontSize:12,color:C.textMuted,marginTop:3}}>Last visit: {v.lastVisit} {"\u2022"} {v.lastStatus}</div></div><span style={{fontSize:18,color:C.textMuted}}>{"\u203A"}</span></div>)}
+      <button onClick={onNewReferral} style={{width:"100%",padding:"12px",borderRadius:10,marginTop:8,border:`1.5px dashed ${C.border}`,background:"transparent",color:C.textMuted,fontSize:13,cursor:"pointer"}}>+ Visit someone not on your list</button>
+    </div>
+    <div style={{padding:"0 16px 20px"}}><div style={{background:C.warmBg,borderRadius:12,padding:"14px 16px",marginTop:8}}><div style={{fontSize:13,fontWeight:600,color:C.warm}}>{"\u2728"} Update from coordinator</div><div style={{fontSize:13,color:C.text,marginTop:6}}>Your flag on Mrs Deepan on 8 Mar led to a coordinator wellness check. Thank you for looking out for her.</div></div></div>
+  </div>;
+}
+
+function LogVisit({visit,onBack,onStatus}) {
+  return <div style={{background:C.bg,minHeight:"100vh"}}><TopBar title="Log Visit" onBack={onBack}/>
+    <div style={{padding:"16px"}}>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",boxShadow:"0 1px 3px rgba(0,0,0,0.06)",marginBottom:16}}><div style={{fontSize:16,fontWeight:600,color:C.text}}>{visit.name}</div><div style={{fontSize:13,color:C.textMuted,marginTop:2}}>{visit.block}</div></div>
+      <div style={{fontSize:14,fontWeight:600,color:C.text,marginBottom:12}}>How was your visit?</div>
+      <button onClick={()=>onStatus("well")} style={{width:"100%",padding:"18px 16px",borderRadius:12,marginBottom:10,border:`2px solid ${C.green}`,background:C.greenBg,cursor:"pointer",display:"flex",alignItems:"center",gap:14,textAlign:"left"}}><span style={{fontSize:28}}>{"\u2705"}</span><div><div style={{fontSize:15,fontWeight:600,color:C.green}}>Visited, all well</div><div style={{fontSize:12,color:C.textMuted,marginTop:2}}>Senior is doing fine</div></div></button>
+      <button onClick={()=>onStatus("note")} style={{width:"100%",padding:"18px 16px",borderRadius:12,marginBottom:10,border:`2px solid ${C.amber}`,background:C.amberBg,cursor:"pointer",display:"flex",alignItems:"center",gap:14,textAlign:"left"}}><span style={{fontSize:28}}>{"\u270F\uFE0F"}</span><div><div style={{fontSize:15,fontWeight:600,color:C.amber}}>Visited, something to note</div><div style={{fontSize:12,color:C.textMuted,marginTop:2}}>I noticed something I'd like to share</div></div></button>
+      <button onClick={()=>onStatus("nocontact")} style={{width:"100%",padding:"18px 16px",borderRadius:12,border:`2px solid ${C.red}`,background:C.redBg,cursor:"pointer",display:"flex",alignItems:"center",gap:14,textAlign:"left"}}><span style={{fontSize:28}}>{"\uD83D\uDEAA"}</span><div><div style={{fontSize:15,fontWeight:600,color:C.red}}>Could not make contact</div><div style={{fontSize:12,color:C.textMuted,marginTop:2}}>Senior did not open the door</div></div></button>
+    </div></div>;
+}
+
+function SomethingToNote({visit,onBack,onSave}) {
+  const [selected,setSelected]=useState([]);const [otherText,setOtherText]=useState("");const [note,setNote]=useState("");const [requestFollowUp,setRequestFollowUp]=useState(false);const [followUpNote,setFollowUpNote]=useState("");
+  const toggle=(o)=>setSelected(p=>p.includes(o)?p.filter(x=>x!==o):[...p,o]);
+  return <div style={{background:C.bg,minHeight:"100vh"}}><TopBar title="What did you notice?" onBack={onBack}/>
+    <div style={{padding:"16px"}}>
+      <div style={{background:C.amberBg,borderRadius:10,padding:"10px 14px",marginBottom:16,fontSize:13,color:C.amber}}>Logging observations for <strong>{visit.name}</strong></div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:12,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{fontSize:14,fontWeight:600,color:C.text,marginBottom:10}}>What did you observe? <span style={{fontWeight:400,color:C.textMuted,fontSize:12}}>(select all that apply)</span></div><div style={{display:"flex",flexWrap:"wrap",gap:8}}>{observations.map(o=><button key={o} onClick={()=>toggle(o)} style={{padding:"8px 14px",borderRadius:20,border:selected.includes(o)?`2px solid ${C.primary}`:`1.5px solid ${C.border}`,background:selected.includes(o)?C.primaryLight:"#fff",color:selected.includes(o)?C.primaryDark:C.text,fontSize:13,cursor:"pointer",fontWeight:selected.includes(o)?500:400}}>{o}</button>)}</div>{selected.includes("Other")&&<div style={{marginTop:10}}><input value={otherText} onChange={e=>setOtherText(e.target.value)} placeholder="What else did you notice? (optional)" style={{width:"100%",padding:"10px 12px",borderRadius:8,fontSize:13,border:`1.5px solid ${C.border}`,outline:"none",boxSizing:"border-box"}}/></div>}</div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:12,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{fontSize:14,fontWeight:600,color:C.text,marginBottom:10}}>Add a short note <span style={{fontWeight:400,color:C.textMuted,fontSize:12}}>(optional)</span></div><textarea value={note} onChange={e=>setNote(e.target.value)} placeholder="Anything else you'd like to share about the visit..." rows={2} style={{width:"100%",padding:"10px 12px",borderRadius:8,fontSize:13,border:`1.5px solid ${C.border}`,outline:"none",resize:"vertical",fontFamily:"inherit",boxSizing:"border-box"}}/></div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:16,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",cursor:"pointer"}} onClick={()=>setRequestFollowUp(!requestFollowUp)}><div style={{fontSize:14,fontWeight:600,color:C.text}}>Request coordinator follow-up?</div><div style={{width:44,height:24,borderRadius:12,padding:2,background:requestFollowUp?C.primary:C.border,transition:"background 0.2s",cursor:"pointer"}}><div style={{width:20,height:20,borderRadius:10,background:"#fff",transform:requestFollowUp?"translateX(20px)":"translateX(0)",transition:"transform 0.2s",boxShadow:"0 1px 3px rgba(0,0,0,0.2)"}}/></div></div>{requestFollowUp&&<div style={{marginTop:10}}><input value={followUpNote} onChange={e=>setFollowUpNote(e.target.value)} placeholder="What would you like the coordinator to know?" style={{width:"100%",padding:"10px 12px",borderRadius:8,fontSize:13,border:`1.5px solid ${C.border}`,outline:"none",boxSizing:"border-box"}}/></div>}</div>
+      <button onClick={onSave} style={{width:"100%",padding:"14px",borderRadius:10,border:"none",background:C.primary,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer"}}>Save Observation</button>
+    </div></div>;
+}
+
+function NoContact({visit,onBack,onSave}) {
+  const [reason,setReason]=useState("");const [expectedNote,setExpectedNote]=useState("");const [keepVisiting,setKeepVisiting]=useState(null);
+  const consecutiveMisses=visit.id===3?3:1;
+  return <div style={{background:C.bg,minHeight:"100vh"}}><TopBar title="Could Not Contact" onBack={onBack}/>
+    <div style={{padding:"16px"}}>
+      <div style={{background:C.redBg,borderRadius:10,padding:"10px 14px",marginBottom:16,fontSize:13,color:C.red}}>Unable to reach <strong>{visit.name}</strong></div>
+      {consecutiveMisses>=2&&<div style={{background:"#fff",borderRadius:12,padding:"14px 16px",marginBottom:12,border:`1.5px solid ${C.amber}`,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{fontSize:13,fontWeight:600,color:C.amber}}>{"\u26A0"} This is the {consecutiveMisses===2?"2nd":"3rd"} consecutive missed visit</div><div style={{fontSize:12,color:C.textMuted,marginTop:4}}>{consecutiveMisses>=3?"The coordinator will be automatically alerted.":"One more missed visit will trigger an alert to the coordinator."}</div></div>}
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:12,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}>
+        <div style={{fontSize:14,fontWeight:600,color:C.text,marginBottom:12}}>Why couldn't you reach them?</div>
+        <button onClick={()=>setReason("expected")} style={{width:"100%",padding:"14px 16px",borderRadius:10,marginBottom:8,border:reason==="expected"?`2px solid ${C.primary}`:`1.5px solid ${C.border}`,background:reason==="expected"?C.primaryLight:"#fff",cursor:"pointer",textAlign:"left"}}><div style={{fontSize:14,fontWeight:500,color:C.text}}>Expected absence</div><div style={{fontSize:12,color:C.textMuted,marginTop:2}}>They mentioned being away or had plans</div></button>
+        <button onClick={()=>setReason("unexpected")} style={{width:"100%",padding:"14px 16px",borderRadius:10,marginBottom:8,border:reason==="unexpected"?`2px solid ${C.amber}`:`1.5px solid ${C.border}`,background:reason==="unexpected"?C.amberBg:"#fff",cursor:"pointer",textAlign:"left"}}><div style={{fontSize:14,fontWeight:500,color:C.text}}>Unexpected, they're usually home</div><div style={{fontSize:12,color:C.textMuted,marginTop:2}}>This is unusual for this senior</div></button>
+        <button onClick={()=>setReason("typically")} style={{width:"100%",padding:"14px 16px",borderRadius:10,border:reason==="typically"?`2px solid ${C.textMuted}`:`1.5px solid ${C.border}`,background:reason==="typically"?C.divider:"#fff",cursor:"pointer",textAlign:"left"}}><div style={{fontSize:14,fontWeight:500,color:C.text}}>This senior typically does not open the door</div><div style={{fontSize:12,color:C.textMuted,marginTop:2}}>I'm building trust through regular visits</div></button>
+        {reason==="expected"&&<div style={{marginTop:10}}><input value={expectedNote} onChange={e=>setExpectedNote(e.target.value)} placeholder="Where did they say they'd be? (optional)" style={{width:"100%",padding:"10px 12px",borderRadius:8,fontSize:13,border:`1.5px solid ${C.border}`,outline:"none",boxSizing:"border-box"}}/></div>}
+        {reason==="typically"&&<div style={{marginTop:12,padding:"12px 14px",borderRadius:10,background:C.divider}}><div style={{fontSize:13,fontWeight:500,color:C.text,marginBottom:8}}>Would you like to keep visiting to build trust?</div><div style={{display:"flex",gap:8}}><button onClick={()=>setKeepVisiting(true)} style={{flex:1,padding:"8px",borderRadius:8,cursor:"pointer",border:keepVisiting===true?`2px solid ${C.primary}`:`1.5px solid ${C.border}`,background:keepVisiting===true?C.primaryLight:"#fff",fontSize:13,fontWeight:500,color:keepVisiting===true?C.primaryDark:C.text}}>Yes, keep visiting</button><button onClick={()=>setKeepVisiting(false)} style={{flex:1,padding:"8px",borderRadius:8,cursor:"pointer",border:keepVisiting===false?`2px solid ${C.amber}`:`1.5px solid ${C.border}`,background:keepVisiting===false?C.amberBg:"#fff",fontSize:13,fontWeight:500,color:keepVisiting===false?C.amber:C.text}}>Flag to coordinator</button></div></div>}
+      </div>
+      <button onClick={onSave} style={{width:"100%",padding:"14px",borderRadius:10,border:"none",background:C.primary,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer",marginTop:4}}>Save</button>
+    </div></div>;
+}
+
+function VisitConfirmation({visit,status,onBack}) {
+  const msg={well:"Visit logged. Thank you, Mrs Wong!",note:"Observation logged. The coordinator will review your notes.",nocontact:"Non-contact logged. Thank you for checking in."};
+  return <div style={{background:C.bg,minHeight:"100vh"}}><TopBar title="Done" onBack={onBack}/>
+    <div style={{padding:"16px",textAlign:"center"}}>
+      <div style={{width:60,height:60,borderRadius:30,background:C.primaryLight,display:"flex",alignItems:"center",justifyContent:"center",margin:"30px auto 16px",fontSize:28}}>{"\u2713"}</div>
+      <div style={{fontSize:17,fontWeight:600,color:C.text}}>{msg[status]}</div>
+      <div style={{fontSize:14,color:C.textMuted,marginTop:6}}>{visit.name}</div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginTop:24,boxShadow:"0 1px 3px rgba(0,0,0,0.06)",textAlign:"left"}}><div style={{fontSize:13,fontWeight:600,color:C.text,marginBottom:8}}>Upcoming visits this week</div><div style={{fontSize:13,color:C.textMuted}}>Sat 15 Mar: Mrs Deepan Kaur, Mr Lim Boon Huat</div><div style={{fontSize:13,color:C.textMuted,marginTop:4}}>Sat 22 Mar: Mr Tan Ah Kow, Mrs Deepan Kaur, Mr Lim Boon Huat</div></div>
+      <button onClick={onBack} style={{width:"100%",padding:"14px",borderRadius:10,border:"none",background:C.primary,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer",marginTop:20}}>Back to My Visits</button>
+    </div></div>;
+}
+
+function ICCPReferral({onBack,onSave}) {
+  const [name,setName]=useState("");const [address,setAddress]=useState("");const [unit,setUnit]=useState("");const [livesAlone,setLivesAlone]=useState("");const [language,setLanguage]=useState("");const [concerns,setConcerns]=useState([]);const [howLong,setHowLong]=useState("");const [notes,setNotes]=useState("");
+  return <div style={{background:C.bg,minHeight:"100vh"}}><TopBar title="Refer a Senior" onBack={onBack}/>
+    <div style={{padding:"16px"}}>
+      <div style={{background:C.primaryLight,borderRadius:10,padding:"10px 14px",marginBottom:16,fontSize:13,color:C.primaryDark}}>This form helps ICCP coordinators identify seniors who may need support but are not yet in the system.</div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:12,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}>
+        <div style={{fontSize:14,fontWeight:600,color:C.text,marginBottom:12}}>Senior's Details</div>
+        <div style={{marginBottom:12}}><div style={{fontSize:12,fontWeight:500,color:C.textMuted,marginBottom:4}}>Name</div><input value={name} onChange={e=>setName(e.target.value)} placeholder="Senior's name" style={{width:"100%",padding:"10px 12px",borderRadius:8,fontSize:13,border:`1.5px solid ${C.border}`,outline:"none",boxSizing:"border-box"}}/></div>
+        <div style={{marginBottom:12}}><div style={{fontSize:12,fontWeight:500,color:C.textMuted,marginBottom:4}}>Block and Street</div><input value={address} onChange={e=>setAddress(e.target.value)} placeholder="e.g. Blk 123 Bedok North Ave 1" style={{width:"100%",padding:"10px 12px",borderRadius:8,fontSize:13,border:`1.5px solid ${C.border}`,outline:"none",boxSizing:"border-box"}}/></div>
+        <div style={{marginBottom:12}}><div style={{fontSize:12,fontWeight:500,color:C.textMuted,marginBottom:4}}>Unit Number</div><input value={unit} onChange={e=>setUnit(e.target.value)} placeholder="e.g. #04-567" style={{width:"100%",padding:"10px 12px",borderRadius:8,fontSize:13,border:`1.5px solid ${C.border}`,outline:"none",boxSizing:"border-box"}}/></div>
+      </div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:12,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}>
+        <div style={{fontSize:14,fontWeight:600,color:C.text,marginBottom:12}}>What do you know about this senior?</div>
+        <div style={{marginBottom:14}}><div style={{fontSize:13,fontWeight:500,color:C.text,marginBottom:8}}>Do they live alone?</div><div style={{display:"flex",gap:8}}>{["Yes","No","Not sure"].map(opt=><button key={opt} onClick={()=>setLivesAlone(opt)} style={{flex:1,padding:"9px",borderRadius:8,cursor:"pointer",border:livesAlone===opt?`2px solid ${C.primary}`:`1.5px solid ${C.border}`,background:livesAlone===opt?C.primaryLight:"#fff",color:livesAlone===opt?C.primaryDark:C.text,fontWeight:500,fontSize:13}}>{opt}</button>)}</div></div>
+        <div style={{marginBottom:14}}><div style={{fontSize:13,fontWeight:500,color:C.text,marginBottom:8}}>What language do they speak?</div><div style={{display:"flex",flexWrap:"wrap",gap:8}}>{["English","Mandarin","Malay","Tamil","Hokkien","Teochew","Cantonese","Other"].map(l=><button key={l} onClick={()=>setLanguage(l)} style={{padding:"8px 14px",borderRadius:20,cursor:"pointer",border:language===l?`2px solid ${C.primary}`:`1.5px solid ${C.border}`,background:language===l?C.primaryLight:"#fff",color:language===l?C.primaryDark:C.text,fontSize:13,fontWeight:language===l?500:400}}>{l}</button>)}</div></div>
+        <div style={{marginBottom:14}}><div style={{fontSize:13,fontWeight:500,color:C.text,marginBottom:8}}>How long have you been visiting?</div><div style={{display:"flex",flexWrap:"wrap",gap:8}}>{["First time meeting","Less than 1 month","1-6 months","More than 6 months"].map(opt=><button key={opt} onClick={()=>setHowLong(opt)} style={{padding:"8px 14px",borderRadius:20,cursor:"pointer",border:howLong===opt?`2px solid ${C.primary}`:`1.5px solid ${C.border}`,background:howLong===opt?C.primaryLight:"#fff",color:howLong===opt?C.primaryDark:C.text,fontSize:13,fontWeight:howLong===opt?500:400}}>{opt}</button>)}</div></div>
+      </div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:12,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{fontSize:14,fontWeight:600,color:C.text,marginBottom:10}}>What concerns you? <span style={{fontWeight:400,color:C.textMuted,fontSize:12}}>(select all that apply)</span></div><div style={{display:"flex",flexWrap:"wrap",gap:8}}>{["Seems confused or forgetful","Appears unwell","Living conditions concern","Seems isolated or lonely","Difficulty with daily tasks","Mentioned financial difficulty","Other"].map(c=><button key={c} onClick={()=>setConcerns(p=>p.includes(c)?p.filter(x=>x!==c):[...p,c])} style={{padding:"8px 14px",borderRadius:20,cursor:"pointer",border:concerns.includes(c)?`2px solid ${C.amber}`:`1.5px solid ${C.border}`,background:concerns.includes(c)?C.amberBg:"#fff",color:concerns.includes(c)?C.amber:C.text,fontSize:13,fontWeight:concerns.includes(c)?500:400}}>{c}</button>)}</div></div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginBottom:16,boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}><div style={{fontSize:14,fontWeight:600,color:C.text,marginBottom:10}}>Anything else? <span style={{fontWeight:400,color:C.textMuted,fontSize:12}}>(optional)</span></div><textarea value={notes} onChange={e=>setNotes(e.target.value)} placeholder="Tell the coordinator anything that might help..." rows={2} style={{width:"100%",padding:"10px 12px",borderRadius:8,fontSize:13,border:`1.5px solid ${C.border}`,outline:"none",resize:"vertical",fontFamily:"inherit",boxSizing:"border-box"}}/></div>
+      <button onClick={onSave} style={{width:"100%",padding:"14px",borderRadius:10,border:"none",background:C.primary,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer"}}>Submit Referral</button>
+    </div></div>;
+}
+
+function ReferralConfirmation({onBack}) {
+  return <div style={{background:C.bg,minHeight:"100vh"}}><TopBar title="Referral Submitted" onBack={onBack}/>
+    <div style={{padding:"16px",textAlign:"center"}}>
+      <div style={{width:60,height:60,borderRadius:30,background:C.primaryLight,display:"flex",alignItems:"center",justifyContent:"center",margin:"30px auto 16px",fontSize:28}}>{"\u2713"}</div>
+      <div style={{fontSize:17,fontWeight:600,color:C.text}}>Referral submitted</div>
+      <div style={{fontSize:14,color:C.textMuted,marginTop:6}}>Thank you for looking out for this senior.</div>
+      <div style={{background:"#fff",borderRadius:12,padding:"16px",marginTop:20,boxShadow:"0 1px 3px rgba(0,0,0,0.06)",textAlign:"left"}}><div style={{fontSize:13,fontWeight:600,color:C.text,marginBottom:6}}>What happens next?</div><div style={{fontSize:13,color:C.textMuted}}>An ICCP coordinator will review your referral and conduct a wellness check. You'll receive an update once they've followed up.</div></div>
+      <button onClick={onBack} style={{width:"100%",padding:"14px",borderRadius:10,border:"none",background:C.primary,color:"#fff",fontSize:15,fontWeight:600,cursor:"pointer",marginTop:20}}>Back to My Visits</button>
+    </div></div>;
+}
+
+function App() {
+  const [screen,setScreen]=useState("list");const [selectedVisit,setSelectedVisit]=useState(null);const [visitStatus,setVisitStatus]=useState(null);const [lang,setLang]=useState("en");
+  const handleSelectVisit=(v)=>{setSelectedVisit(v);setScreen("log")};
+  const handleStatus=(status)=>{setVisitStatus(status);if(status==="well")setScreen("confirmation");else if(status==="note")setScreen("note");else setScreen("nocontact")};
+  const handleBack=()=>{setScreen("list");setSelectedVisit(null);setVisitStatus(null)};
+  return <div style={{maxWidth:390,margin:"0 auto",minHeight:"100vh",fontFamily:"-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"}}>
+    {screen==="list"&&<VisitList onSelectVisit={handleSelectVisit} onNewReferral={()=>setScreen("referral")} lang={lang} setLang={setLang}/>}
+    {screen==="log"&&selectedVisit&&<LogVisit visit={selectedVisit} onBack={handleBack} onStatus={handleStatus}/>}
+    {screen==="note"&&selectedVisit&&<SomethingToNote visit={selectedVisit} onBack={()=>setScreen("log")} onSave={()=>{setVisitStatus("note");setScreen("confirmation")}}/>}
+    {screen==="nocontact"&&selectedVisit&&<NoContact visit={selectedVisit} onBack={()=>setScreen("log")} onSave={()=>{setVisitStatus("nocontact");setScreen("confirmation")}}/>}
+    {screen==="confirmation"&&selectedVisit&&<VisitConfirmation visit={selectedVisit} status={visitStatus} onBack={handleBack}/>}
+    {screen==="referral"&&<ICCPReferral onBack={handleBack} onSave={()=>setScreen("referralConfirm")}/>}
+    {screen==="referralConfirm"&&<ReferralConfirmation onBack={handleBack}/>}
+  </div>;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>

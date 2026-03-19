@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catching Seniors Before They Fall - Julianne Toh</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Georgia, 'Times New Roman', serif; color: #1a1a1a; background: #fafafa; line-height: 1.6; }
+        .container { max-width: 640px; margin: 0 auto; padding: 60px 24px; }
+        .back { font-family: Helvetica, Arial, sans-serif; font-size: 13px; margin-bottom: 32px; }
+        .back a { color: #2B4C7E; text-decoration: none; }
+        .back a:hover { text-decoration: underline; }
+        .type { font-family: Helvetica, Arial, sans-serif; font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        h1 { font-size: 24px; font-weight: bold; margin-bottom: 8px; color: #1a1a1a; }
+        .subtitle { font-size: 17px; color: #555; margin-bottom: 8px; }
+        .meta { font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: #888; margin-bottom: 40px; }
+        .content p { font-size: 16px; color: #333; margin-bottom: 20px; }
+        .content h2 { font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; color: #2B4C7E; margin-top: 40px; margin-bottom: 16px; }
+        .content h3 { font-size: 18px; font-weight: bold; color: #1a1a1a; margin-top: 32px; margin-bottom: 12px; }
+        .content .quote { font-size: 15px; color: #555; font-style: italic; margin-bottom: 20px; padding: 16px 20px; background: #f4f4f4; border-left: 3px solid #2B4C7E; }
+        .content .quote .attribution { font-style: normal; font-size: 13px; color: #888; margin-top: 8px; }
+        .content .insight { font-size: 15px; color: #444; margin-bottom: 20px; padding: 16px 20px; background: #f9f6f0; border-left: 3px solid #D97706; }
+        .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e8e8e8; font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #999; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back"><a href="index.html">&larr; Back to portfolio</a></div>
+        <div class="type">Product Case Study</div>
+        <h1>Catching Seniors Before They Fall</h1>
+        <p class="subtitle">An app that connects hospital discharge data with community volunteer observations to identify at-risk seniors before they fall through the cracks</p>
+        <p class="meta">Julianne Toh &middot; March 2026</p>
+
+        <div class="content">
+
+            <h2>The pattern</h2>
+
+            <p>I keep finding the same problem in every domain I work in. At SPF, case data was siloed across jurisdictions and agencies. At Amazon, fraud signals didn't reach the teams that needed to act on them. The common thread is information asymmetry: vulnerable people bear the cost of systems where the right information isn't reaching the right person at the right time. This case study is the latest instance of that pattern, applied to elderly care in Singapore.</p>
+
+            <h2>The starting point</h2>
+
+            <p>By 2030, an estimated 83,000 seniors will be living alone in Singapore, almost double the 47,000 in 2016. Singapore has invested heavily in formal care infrastructure: ICCP coordinators manage sub-regional caseloads, community volunteers visit seniors regularly, and hospitals have discharge planning teams. But these people are disconnected from each other. The befriender who visits Mr Tan every Saturday knows something the ICCP coordinator doesn't. The hospital that discharged him on Friday knows something neither of them know.</p>
+
+            <p>The gap isn't people or programmes. It's information flow.</p>
+
+            <p>I explored this problem over two weeks, interviewing five people across different parts of the care system, reading the ICCP implementation guide, and designing a product from scratch. This case study documents the process: what I learned, what I designed, and why.</p>
+
+            <h2>The dead end that shaped the direction</h2>
+
+            <p>My first instinct was a friendship matching app for isolated seniors, something like a dating app but for companionship. The research killed it quickly: the seniors most at risk of isolation are the least likely to adopt new technology. An app that requires the vulnerable person to download, register, and engage is designing for the wrong user.</p>
+
+            <p>That failure reframed the question. Instead of building something for seniors directly, I asked: what's missing in the system around them?</p>
+
+            <h2>What the users told me</h2>
+
+            <p>I spoke to five people. Each described the same structural gap from a different angle.</p>
+
+            <div class="quote">
+                "Post-discharge triage is judgment-based, not systematic. For patients not referred for specific community supports, we won't be able to tell what happens. They become lost to follow-up."
+                <div class="attribution">Discharge nurse, public hospital</div>
+            </div>
+
+            <p>The nurse confirmed that once a patient leaves the hospital, clinical staff have no visibility into what happens next. Patients who aren't referred to specific services simply disappear from view.</p>
+
+            <div class="quote">
+                "Once we confirm that they are in the service, I don't get to really check in on them again. I give my number to patients and try to empower them to call me back, but I won't be able to always check in."
+                <div class="attribution">Medical social worker, Ng Teng Fong General Hospital</div>
+            </div>
+
+            <p>The medical social worker does thorough work at discharge: needs assessments, service referrals, connecting patients to community resources. But after the handover, visibility ends. She relies on patients calling her back, which the most vulnerable are least likely to do.</p>
+
+            <div class="quote">
+                "We definitely had cases that fell through the cracks. The handover, whether it's from hospital to the community services or back, can really just be so messy and broken. So many different agencies involved."
+                <div class="attribution">Medical social worker, Ng Teng Fong General Hospital</div>
+            </div>
+
+            <p>She named the root cause directly: broken communication across too many agencies. And when asked what tool would help most, she described something strikingly close to what I'd already designed: "If there was a system whereby after the service takes up the case and when they do the intake assessment and put in their first assessment, I think that will be very helpful. If there's one system that's integrated, I think that will be very helpful."</p>
+
+            <p>My father-in-law, who volunteers with the Silver Generation Office, described visiting seniors block by block in pairs, matched by language and ethnicity. He identified the "door problem": some seniors consistently refuse to open their doors. He suggested three consecutive non-contacts should trigger an escalation. A social worker in financial services confirmed that seniors "can be quite stubborn and seclude themselves." And my mother described how lonely elderly neighbours struggle with health conditions without family support.</p>
+
+            <div class="insight">
+                The pattern across all five conversations was the same: the people exist, the programmes exist, but the information is siloed between hospital, community coordinator, and informal network. Each person sees one piece of the picture. Nobody sees the whole thing.
+            </div>
+
+            <p>The most significant gap in my research: I was unable to interview an ICCP coordinator within the research window. The coordinator is the primary user of the product I designed, and their daily workflow should have shaped the design from the start. Shankari, the NTFGH medical social worker, was the closest proxy, but a medical social worker's concerns are not identical to a coordinator's. In a longer research cycle, shadowing a coordinator for a day would have been my first step.</p>
+
+            <h2>The existing landscape</h2>
+
+            <p>Singapore's government technology teams have already built products serving adjacent parts of this ecosystem. Social360 is a case management system designed for social workers, streamlining administrative tasks so they can spend more time with clients. Care360 helps medical social workers manage patients' financial and psychosocial care. Bright is a referral platform connecting patients to intermediate and long-term care services like nursing homes and day care centres. Referral Exchange digitises healthcare referrals as a backend integration layer across major healthcare IT systems.</p>
+
+            <p>These products improve efficiency within existing workflows. What they don't address is the proactive identification of at-risk seniors through informal community signals. Social360 and Care360 serve practitioners who already have a caseload. Bright connects known patients to known services. None of them create a pathway for a community volunteer's Saturday visit observation to reach the coordinator who needs to act on it. That's the specific gap this product is designed to fill: not replacing existing case management, but adding an early-warning layer that sits upstream of it.</p>
+
+            <h2>What I designed</h2>
+
+            <p>A community-wide alert system that turns signals from hospitals, ICCP coordinators, and informal community networks into targeted follow-ups for the seniors most likely to fall through the cracks. Where existing systems capture clinical data, this product captures what happens after discharge, in the community, between the formal touchpoints.</p>
+
+            <p>The product has three user types, each with a deliberately different experience.</p>
+
+            <h3>The coordinator</h3>
+
+            <p>ICCP coordinators are typically diploma holders, 2-3 years of experience, managing complex caseloads across a sub-region of 8,000-16,000 seniors. They use multiple IT systems already and are expected to be tech-savvy, but they're relatively junior and learning on the job.</p>
+
+            <p>Their dashboard answers one question: who needs my attention most today? Priority alerts are ranked by risk score, each showing the senior's key risk factors, the source of the alert (hospital discharge or community referral), and a recommended action. The coordinator can tap into any senior's profile to see all available information: discharge data, volunteer visit history, and previous follow-up actions.</p>
+
+            <p>When the coordinator acts, they log the outcome through structured MCQ fields. Outcome first (what happened), then actions taken (checkboxes, because a coordinator might do multiple things in one visit), then next step. Everything is structured because structured inputs double as analytics: risk score accuracy, override patterns, follow-up reach.</p>
+
+            <p>The coordinator can override the risk score at any time, selecting a reason from structured options. Overrides are logged, not hidden. This serves two purposes: the coordinator's professional judgment is respected and documented, and the override data trains better risk scoring over time.</p>
+
+            <h3>The volunteer</h3>
+
+            <p>Befriending volunteers are often retired, matched by language and ethnicity to the seniors they visit, working in pairs, 4 hours per week, unpaid. Their working language may not be English.</p>
+
+            <p>The volunteer app shows only the high-risk seniors their coordinator has asked them to monitor. This isn't their full befriending route; it's a focused list for the pilot. The interface is simple and multilingual: tap a senior's name, select one of three large buttons (visited all well, visited something to note, could not make contact).</p>
+
+            <p>A key design decision: every visit gets logged, not just concerns. This normalises the interaction so flagging a concern is one option in a routine check-in, not a dramatic act that requires justification. It also creates baseline data. A missing log is itself a signal.</p>
+
+            <p>If the volunteer selects "something to note," they choose from structured observation chips (confusion, weight loss, mobility difficulty, and so on) and can optionally request a coordinator follow-up. If they select "could not make contact," the system tracks the pattern. Two consecutive unexpected missed visits triggers a warning. Three triggers an automatic coordinator alert. But a third option, "this senior typically does not open the door," handles the trust-building scenario where a volunteer is trying to establish a relationship with a reluctant senior. The system distinguishes between "always refuses" and "suddenly stopped responding."</p>
+
+            <p>Volunteers can also refer seniors who aren't in the system yet through a lightweight form. This solves the ICCP paradox: seniors who haven't been discharged from hospital and aren't known to ICCP can still enter the system through the informal community network.</p>
+
+            <h3>The discharge planner</h3>
+
+            <p>The discharge planner completes a structured form, mostly MCQ, for seniors meeting existing hospital risk criteria (frailty flags, repeated admissions). The form takes under two minutes and covers living arrangement, primary language, mobility, cognitive concerns, and post-discharge services. "Referred, pending confirmation" is a valid option, because the form needs to handle uncertainty gracefully. The structured inputs double as an analytics layer for measuring risk score accuracy and override patterns.</p>
+
+            <h3>The senior</h3>
+
+            <p>The technology is invisible to them. They experience the system through more timely follow-ups and better-informed coordinators. The coordinator frames visits as normal community check-ins, not system-generated responses.</p>
+
+            <h2>Design decisions and their rationale</h2>
+
+            <h3>Rule-based scoring, not ML</h3>
+
+            <p>For the pilot, risk scoring is rule-based. The rules are designed collaboratively: sit down with experienced coordinators, ask them how they currently triage in their heads, use that mental model as the starting point. ML requires outcome data that doesn't exist yet. The pilot generates that data. If the pilot succeeds and the system scales, ML scoring on real outcome data becomes viable.</p>
+
+            <h3>Structured form over API integration</h3>
+
+            <p>Hospital API integration is ideal but requires IT buy-in that isn't feasible for a pilot. Full manual entry is too burdensome. The structured discharge form is the middle path: fast enough to complete (under 2 minutes), structured enough to generate analytics, and scoped only to seniors meeting existing risk criteria so it narrows rather than adds to the discharge planner's workload.</p>
+
+            <h3>Progressive Web App</h3>
+
+            <p>Nothing about the design requires specialised infrastructure. A PWA works on any mobile browser with push notifications, avoiding app store approvals and downloads. The tech stack choice is driven by team familiarity and speed to deploy.</p>
+
+            <h3>Alerts first, case management second</h3>
+
+            <p>Feature priority is deliberate. Risk-stratified alerts ship first because that's the core differentiator: combining clinical signals with community signals that no existing system captures. Task assignment and tracking ship second. A unified timeline across all touchpoints is deferred until coordination complexity demands it at scale.</p>
+
+            <h2>Measuring success</h2>
+
+            <p>Success is measured by what doesn't happen. The primary metric is reduction in preventable readmissions among high-risk elderly in the pilot area. This is established through monthly outcome matching with the partner hospital, comparing readmission rates for seniors in the system against historical baselines.</p>
+
+            <p>The attribution challenge is real: a readmission reduction could be caused by the app, by seasonal trends, by changes in hospital discharge practices, or by the ICCP coordinator simply being more attentive because they know they're in a pilot. At pilot scale (one hospital, one ICCP sub-region), a controlled experiment isn't feasible. The practical approach is to triangulate: if readmissions drop, and coordinators report catching cases they would have missed, and the timeline data shows faster follow-up after alerts, the combined picture is more persuasive than any single metric. If readmissions don't drop but coordinators are actively using the app and catching cases earlier, that's still a signal worth investigating before concluding the product doesn't work.</p>
+
+            <p>Secondary metrics include time-to-follow-up after an alert, risk score accuracy against actual outcomes, coordinator override patterns, and volunteer visit logging consistency.</p>
+
+            <p>For product-market fit, the key question is whether coordinators integrate the app into their daily workflow without being prompted. Concrete signals: daily active usage trending upward through the pilot, coordinators acting on alerts within 48 hours, override rates that start high (as scoring calibrates) and decrease over time, and volunteers logging visits consistently rather than dropping off after the first two weeks. At week 8, I'd ask coordinators directly: if we removed this tomorrow, would you feel like you'd lost something? If the answer is yes and the behavioural metrics support it, that's PMF for the pilot. If adoption isn't trending upward by week 4, that's the signal to interview users, identify friction, and adjust before the pilot window closes. If by week 8 coordinators aren't using it daily, the honest conclusion may be that the product doesn't solve a painful enough problem in its current form, and the right response is to pivot or stop rather than push harder on adoption.</p>
+
+            <h2>Prototyping</h2>
+
+            <p>I built interactive prototypes for both the coordinator dashboard and the volunteer visit logger. Both are designed mobile-first at phone screen width, with clickable flows that walk through the complete user journey. The prototypes were built using AI tools, allowing me to focus on design decisions rather than code.</p>
+
+            <p><a href="coordinator-dashboard.html" style="color: #2B4C7E;">Try the coordinator dashboard prototype &rarr;</a></p>
+            <p><a href="volunteer-visit-logger.html" style="color: #2B4C7E;">Try the volunteer visit logger prototype &rarr;</a></p>
+
+            <h2>User validation</h2>
+
+            <p>The strongest validation came after the product was designed. The NTFGH medical social worker, responding to my questions about her daily work, independently described the exact system I'd built: "If there was one system that's integrated, I think that will be very helpful." She confirmed that patients fall through the cracks, that handovers are "messy and broken" across agencies, and that she loses visibility after referral. She also noted that the gap between hospital and community is shrinking, with community care teams now serving as "our eyes in the community," but gaps remain.</p>
+
+            <p>This matters because she didn't react to my proposal. She described her own pain points, and what she wished existed turned out to match the product I'd designed from talking to other people in the system. That convergence from independent sources is the strongest form of problem validation.</p>
+
+            <h2>What I'd do differently</h2>
+
+            <p>I'd start user research with ICCP coordinators rather than working from the edges inward. I started with people in my network (a nurse, my father-in-law, a social worker), and each conversation pointed closer to the core user. By the time I understood that the ICCP coordinator was the primary user, the proposal was nearly finished. Starting with a coordinator in week one and shadowing them before writing anything would have shaped the design from the start rather than validating it at the end.</p>
+
+            <p>I'd also research the existing product landscape more thoroughly. Several government products already serve adjacent parts of this ecosystem. Understanding what already exists and positioning the proposal relative to it would have sharpened the differentiation.</p>
+
+            <p>That said, the indirect path taught me something valuable. Each person described the same gap from a different angle, which gave me confidence the problem is real and structural, not just one person's frustration. I wouldn't trade that triangulation. I'd just resequence it.</p>
+
+            <h2>Closing</h2>
+
+            <p>Hospital data, coordinator knowledge, and community observations exist in separate systems with no structured way to share them. This product bridges those silos, not by replacing human judgment, but by ensuring the humans who make decisions have the information they need to make good ones. The gap isn't capability. It's coordination. And that's a problem technology can actually help solve.</p>
+
+        </div>
+
+        <div class="footer">
+            <a href="index.html" style="color: #2B4C7E; text-decoration: none;">&larr; Back to portfolio</a>
+        </div>
+    </div>
+</body>
+</html>
